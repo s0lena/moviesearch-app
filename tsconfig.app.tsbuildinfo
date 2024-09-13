@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/header.tsx","./src/components/input.tsx","./src/hooks/usegenres.tsx","./src/pages/error404.tsx","./src/pages/moviedetailview.tsx","./src/pages/searchview.tsx","./src/services/tmdb_api.ts","./src/styles/global.ts"],"errors":true,"version":"5.6.2"}
