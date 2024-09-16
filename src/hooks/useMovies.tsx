@@ -16,7 +16,7 @@ export const useMovies = ({ query, page }: InputFetchMovies) => {
   const { data, error, isLoading, isFetching } = useQuery({
     queryKey, // Unique key for this query
     queryFn: () => fetchMovies({ query, page }), // Function to fetch data
-    staleTime: 5000, // Optional: Prevents refetching too frequently within 5 seconds
+    staleTime: 5000, // Prevents refetching too frequently within 5 seconds
   });
 
   // Effect to accumulate movies as pages load

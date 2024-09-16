@@ -5,7 +5,7 @@ import MissingPoster from "../assets/MissingPoster.jpg";
 
 interface MovieItemProps {
   movie: Movie;
-  //   onClick: () => void;
+  onClick: () => void;
 }
 
 const MovieItemWrapper = styled.li`
@@ -23,9 +23,12 @@ const Poster = styled.img`
   max-width: 100%;
 `;
 
-export const MovieItem: React.FC<MovieItemProps> = ({ movie }): JSX.Element => {
+export const MovieItem: React.FC<MovieItemProps> = ({
+  movie,
+  onClick,
+}): JSX.Element => {
   return (
-    <MovieItemWrapper>
+    <MovieItemWrapper onClick={onClick}>
       <Poster
         src={
           movie.poster_path

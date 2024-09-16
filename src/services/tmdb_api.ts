@@ -27,7 +27,7 @@ export interface Movie {
 }
 
 interface MoviesResponse {
-  results: Movie[]; // This should be `results` based on typical API response structure
+  results: Movie[];
   total_pages: number;
   total_results: number;
 }
@@ -71,4 +71,15 @@ export const fetchMovies = async ({
     console.error("Error fetching movies:", error);
     throw new Error("Failed to fetch movies");
   }
+};
+
+// Fetch movie by ID for MovieDetailView
+export const fetchMovieById = async (id: string): Promise<Movie> => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch movie");
+  }
+  return response.json(); // Return the movie data
 };

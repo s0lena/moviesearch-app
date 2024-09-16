@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import logo from "../assets/logo.svg";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const rotate = keyframes`
 from {
@@ -13,7 +14,7 @@ from {
 const RotatingLogo = styled.img`
   margin-top: calc(2 * (10px + 2vmin));
   height: 20vmin;
-  pointer-events: none;
+  cursor: pointer;
 
   @media (prefers-reduced-motion: no-preference) {
     animation: ${rotate} infinite 20s linear;
@@ -21,9 +22,19 @@ const RotatingLogo = styled.img`
 `;
 
 export const Header: React.FC = (): JSX.Element => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isMainpage = location.pathname === "/";
+
+  const handleLogoClick = () => {
+    if (!isMainpage) {
+      navigate("/");
+    }
+  };
+
   return (
     <header>
-      <RotatingLogo src={logo} alt="logo" />
+      <RotatingLogo src={logo} alt="logo" onClick={handleLogoClick} />
     </header>
   );
 };

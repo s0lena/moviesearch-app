@@ -13,12 +13,17 @@ const MovieListContainer = styled.ul`
 
 interface MovieListProps {
   movies: Movie[];
+  onClick: (movie: Movie) => void;
 }
-export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
+export const MovieList: React.FC<MovieListProps> = ({ movies, onClick }) => {
   return (
     <MovieListContainer>
       {movies.map((movie: Movie) => (
-        <MovieItem key={movie.id} movie={movie} />
+        <MovieItem
+          key={movie.id}
+          movie={movie}
+          onClick={() => onClick(movie)}
+        />
       ))}
     </MovieListContainer>
   );
