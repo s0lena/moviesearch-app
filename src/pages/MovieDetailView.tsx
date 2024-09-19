@@ -61,6 +61,7 @@ const BackToListButton = styled.button`
 `;
 
 export const MovieDetailView: React.FC = () => {
+  console.log("MovieDetailView component rendered");
   const { id } = useParams<{ id: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
   const navigate = useNavigate();
@@ -82,6 +83,7 @@ export const MovieDetailView: React.FC = () => {
 
   const onBackToList = () => {
     navigate(-1);
+    setMovie(null);
   };
 
   // Handle the case where the movie is not yet loaded
