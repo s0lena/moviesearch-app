@@ -72,7 +72,7 @@ export const MovieDetailView: React.FC = () => {
       if (id) {
         try {
           const movieData = await fetchMovieById(id); // Fetch the movie from API
-          setMovie(movieData); // Update the movie state
+          setMovie(movieData);
         } catch (error) {
           console.error("Error fetching movie:", error);
         }

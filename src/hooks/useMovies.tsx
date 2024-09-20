@@ -51,6 +51,7 @@ export const useMovies = ({ query, page }: InputFetchMovies) => {
   const isLoading = queryResults.some((q) => q.isLoading);
   const isFetching = queryResults.some((q) => q.isFetching);
 
+  console.log("MovieData fetched");
   // Return the accumulated movies, and other states
   return {
     movies: allMovies,
