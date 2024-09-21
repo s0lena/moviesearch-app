@@ -5,6 +5,8 @@ import { Input } from "../components/Input";
 import { useMovies } from "../hooks/useMovies";
 import { MovieList } from "../components/MovieList";
 import { Movie } from "../services/tmdb_api";
+import { ScrollToTopButton } from "../components/ScrollToTopButton";
+import { useScroll } from "../hooks/useScroll";
 
 const LoadMoreButton = styled.button`
   padding: 2vmin 3vmin;
@@ -32,7 +34,7 @@ export const SearchView: React.FC = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState<string>("");
   const [page, setPage] = useState<number>(1);
-  const [movieSelected, setMovieSelected] = useState<Movie | null>(null);
+  const showScrollButton = useScroll();
 
   const { movies, hasMore, noResults } = useMovies({ query, page });
 
@@ -78,7 +80,6 @@ export const SearchView: React.FC = () => {
       sessionStorage.setItem("page", page.toString());
       sessionStorage.setItem("scrollPosition", window.scrollY.toString());
       console.log("Saved scroll position:", window.scrollY.toString());
-      setMovieSelected(movie);
       navigate(`/movie/${movie.id}`); // Navigate to the movie detail view
     },
     [query, page, navigate]
@@ -87,6 +88,13 @@ export const SearchView: React.FC = () => {
   // Handle loading more pages
   const handleLoadMore = useCallback(() => {
     setPage((prevPage) => prevPage + 1);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }, []);
 
   return (
@@ -101,6 +109,7 @@ export const SearchView: React.FC = () => {
           Oops, there's no movie to match your search... Try again!
         </Message>
       ) : null}
+      <ScrollToTopButton onClick={scrollToTop} show={showScrollButton} />
     </>
   );
 };
