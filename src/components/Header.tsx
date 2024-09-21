@@ -27,7 +27,12 @@ export const Header: React.FC = (): JSX.Element => {
   const isMainpage = location.pathname === "/";
 
   const handleLogoClick = () => {
-    if (!isMainpage) {
+    sessionStorage.setItem("query", "");
+    sessionStorage.setItem("page", "1");
+
+    if (isMainpage) {
+      navigate("/", { replace: true }); // Replace the current state
+    } else {
       navigate("/");
     }
   };

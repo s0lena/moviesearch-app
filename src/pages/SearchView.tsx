@@ -46,19 +46,16 @@ export const SearchView: React.FC = () => {
 
     if (savedQuery) {
       setQuery(savedQuery);
-      console.log("Restored query:", savedQuery);
     }
     if (savedPage) {
       setPage(Number(savedPage));
-      console.log("Restored page:", Number(savedPage));
     }
     if (savedScrollPosition) {
       setTimeout(() => {
         window.scrollTo(0, Number(savedScrollPosition));
-        console.log("Restored scroll position:", Number(savedScrollPosition));
       }, 0); // Delay the scroll restoration to ensure the DOM is fully rendered before the scroll position is set
     }
-  }, []);
+  }, [location]);
 
   // Handle input change and reset page if query changes
   const handleInputChange = useCallback(
@@ -79,8 +76,7 @@ export const SearchView: React.FC = () => {
       sessionStorage.setItem("query", query);
       sessionStorage.setItem("page", page.toString());
       sessionStorage.setItem("scrollPosition", window.scrollY.toString());
-      console.log("Saved scroll position:", window.scrollY.toString());
-      navigate(`/movie/${movie.id}`); // Navigate to the movie detail view
+      navigate(`/movie/${movie.id}`, { state: { movie } }); // Navigate to the movie detail view
     },
     [query, page, navigate]
   );
@@ -96,7 +92,6 @@ export const SearchView: React.FC = () => {
       behavior: "smooth",
     });
   }, []);
-
   return (
     <>
       <Input value={query} onChange={handleInputChange} />

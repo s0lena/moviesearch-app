@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useMemo } from "react";
 import styled from "styled-components";
-import { Movie, fetchMovieById } from "../services/tmdb_api";
 import MissingPoster from "../assets/MissingPoster.jpg";
+import { useGenres } from "../hooks/useGenres";
+import { Genre } from "../services/tmdb_api";
 
 const MovieDetailContainer = styled.div`
   display: flex;
@@ -61,35 +62,23 @@ const BackToListButton = styled.button`
 `;
 
 export const MovieDetailView: React.FC = () => {
-  console.log("MovieDetailView component rendered");
-  const { id } = useParams<{ id: string }>();
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const location = useLocation();
+  const movie = location.state?.movie;
   const navigate = useNavigate();
+  const genres: Genre[] = useGenres();
 
-  // Fetch movie data based on ID
-  useEffect(() => {
-    const fetchMovie = async () => {
-      if (id) {
-        try {
-          const movieData = await fetchMovieById(id); // Fetch the movie from API
-          setMovie(movieData);
-        } catch (error) {
-          console.error("Error fetching movie:", error);
-        }
-      }
-    };
-    fetchMovie();
-  }, [id]);
+  const genreNames = useMemo(
+    () =>
+      movie.genre_ids.map((id: number) => {
+        const genre = genres.find((g: Genre) => g.id === id);
+        return genre ? genre.name : "Unknown";
+      }),
+    [movie.genre_ids, genres]
+  );
 
   const onBackToList = () => {
     navigate(-1);
-    setMovie(null);
   };
-
-  // Handle the case where the movie is not yet loaded
-  if (!movie) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <MovieDetailContainer>
@@ -105,6 +94,7 @@ export const MovieDetailView: React.FC = () => {
         <MovieData>
           <MovieTitle>{movie.title}</MovieTitle>
           <p>Release date: {movie.release_date}</p>
+          <h4>Genres: {genreNames.join(", ")}</h4>
           <p>{movie.overview}</p>
           <Rating>
             <h4>Rating:</h4>
@@ -116,4 +106,56 @@ export const MovieDetailView: React.FC = () => {
       <BackToListButton onClick={onBackToList}>Back to list</BackToListButton>
     </MovieDetailContainer>
   );
+
+  // Fetch movie data based on ID
+  // const { id } = useParams<{ id: string }>();
+  // useEffect(() => {
+  //   const fetchMovie = async () => {
+  //     if (id) {
+  //       try {
+  //         const movieData = await fetchMovieById(id); // Fetch the movie from API
+  //         setMovie(movieData);
+  //       } catch (error) {
+  //         console.error("Error fetching movie:", error);
+  //       }
+  //     }
+  //   };
+  //   fetchMovie();
+  // }, [id]);
+
+  // const onBackToList = () => {
+  //   navigate(-1);
+  //   setMovie(null);
+  // };
+
+  // // Handle the case where the movie is not yet loaded
+  // if (!movie) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // return (
+  //   <MovieDetailContainer>
+  //     <MovieItemWrapper>
+  //       <Poster
+  //         src={
+  //           movie.poster_path
+  //             ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+  //             : MissingPoster
+  //         }
+  //         alt={`Poster ${movie.title}`}
+  //       />
+  //       <MovieData>
+  //         <MovieTitle>{movie.title}</MovieTitle>
+  //         <p>Release date: {movie.release_date}</p>
+  //         <p>{movie.overview}</p>
+  //         <Rating>
+  //           <h4>Rating:</h4>
+  //           <h2>{movie.vote_average}</h2> based on <h4>{movie.vote_count}</h4>{" "}
+  //           reviews
+  //         </Rating>
+  //       </MovieData>
+  //     </MovieItemWrapper>
+  //     <BackToListButton onClick={onBackToList}>Back to list</BackToListButton>
+  //   </MovieDetailContainer>
+  // );
 };

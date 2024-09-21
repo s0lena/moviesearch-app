@@ -8,7 +8,6 @@ import { Outlet } from "react-router-dom";
 const AppStyled = styled.div``;
 
 const App: React.FC = () => {
-  console.log("App rendered");
   return (
     <AppStyled>
       <GlobalStyles />
