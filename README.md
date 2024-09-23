@@ -1,50 +1,105 @@
-# React + TypeScript + Vite
+🎬 Movie Search App
+A Movie Search App built with React and TypeScript that allows users to search for movies using the TMDb API. This app is powered by React Query for data fetching, Axios for making API requests, and styled with styled-components. It also uses React Router for navigation and is deployed on Netlify.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<!-- Table of Contents
+Features
+Demo
+Technologies
+Setup
+Environment Variables
+Usage
+Project Structure
+Contributing
+License -->
 
-Currently, two official plugins are available:
+Features
+🔍 Search Movies: Enter a query to search for movies in real-time.
+📜 View Movie Details: Click on any movie to see detailed information including release date, overview, and ratings.
+🗂 Pagination: Load more movies as you scroll or click "Load More".
+⚡ Efficient Data Fetching: Using React Query for caching and minimizing unnecessary API calls.
+🎨 Responsive Design: Styled using styled-components for modern and responsive UI.
+🚀 Deployed on Netlify: Accessible online with seamless integration.
+Demo
+You can try the live version of the app here: https://moviesearch-app-os.netlify.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Technologies
+React (with TypeScript)
+React Query (for data fetching)
+Axios (for API requests)
+Styled-Components (for styling)
+React Router (for navigation)
+Netlify (for deployment)
 
-## Expanding the ESLint configuration
+<!-- Setup
+To run this project locally, follow these steps:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Prerequisites
+Make sure you have Node.js and npm (or yarn) installed on your machine.
 
-- Configure the top-level `parserOptions` property like this:
+Clone the repository:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+bash
+Копіювати код
+git clone https://github.com/your-username/movie-search-app.git
+cd movie-search-app
+Install dependencies:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+bash
+Копіювати код
+npm install
+Create a .env file in the root of the project and add the following environment variables:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+bash
+Копіювати код
+VITE_TMDB_API_KEY=<Your_TMDB_API_Key>
+VITE_TMDB_API_URL=https://api.themoviedb.org/3/search/movie
+VITE_TMDB_API_GENRE_URL=https://api.themoviedb.org/3/genre/movie/list
+You can get your TMDb API Key by creating an account at TMDb.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Start the development server:
+
+bash
+Копіювати код
+npm run dev
+Visit the app at http://localhost:3000 in your browser.
+
+Environment Variables
+The following environment variables are required to connect to the TMDb API:
+
+VITE_TMDB_API_KEY: Your API key from TMDb.
+VITE_TMDB_API_URL: The base URL for searching movies.
+VITE_TMDB_API_GENRE_URL: The base URL for fetching genres.
+These variables should be set in your .env file. They are handled on the server and are not exposed to the client-side.
+
+Usage
+Once the app is running, you can:
+
+Enter a search term in the search bar to find movies.
+Browse through the list of movies that match the search.
+Click on any movie to view detailed information about it.
+Scroll to load more movies or click the "Load More" button. -->
+
+Project Structure
+Here's an overview of the project structure:
+
+src/
+│
+├── assets/ # Static assets like images (e.g., MissingPoster)
+├── components/ # Reusable React components (Input, MovieList, etc.)
+├── hooks/ # Custom hooks (e.g., useMovies, useScroll)
+├── pages/ # Page components like SearchView and MovieDetailView
+├── services/ # API calls (fetchMovies, fetchGenres)
+├── App.tsx # Main App component
+├── index.tsx # Entry point of the app
+├── styles.ts # Global styles or styled-components theme
+
+<!-- ├── env.d.ts              # TypeScript definitions for environment variables -->
+
+Contributing
+If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+
+Fork the repository.
+Create a new feature branch (git checkout -b feature/your-feature-name).
+Commit your changes (git commit -am 'Add some feature').
+Push to the branch (git push origin feature/your-feature-name).
+Create a new Pull Request.
