@@ -67,12 +67,25 @@ export const MovieDetailView: React.FC = () => {
   const navigate = useNavigate();
   const genres: Genre[] = useGenres();
 
+  // Check if movie is undefined and handle it gracefully
+  if (!movie) {
+    return (
+      <MovieDetailContainer>
+        <h2>Movie details not available</h2>
+        <BackToListButton onClick={() => navigate(-1)}>
+          Back to list
+        </BackToListButton>
+      </MovieDetailContainer>
+    );
+  }
+
+  // Safely map genres only if movie.genre_ids is defined
   const genreNames = useMemo(
     () =>
-      movie.genre_ids.map((id: number) => {
+      movie.genre_ids?.map((id: number) => {
         const genre = genres.find((g: Genre) => g.id === id);
         return genre ? genre.name : "Unknown";
-      }),
+      }) || [], // Ensure that if movie.genre_ids is undefined, it returns an empty array
     [movie.genre_ids, genres]
   );
 
@@ -106,56 +119,55 @@ export const MovieDetailView: React.FC = () => {
       <BackToListButton onClick={onBackToList}>Back to list</BackToListButton>
     </MovieDetailContainer>
   );
-
-  // Fetch movie data based on ID
-  // const { id } = useParams<{ id: string }>();
-  // useEffect(() => {
-  //   const fetchMovie = async () => {
-  //     if (id) {
-  //       try {
-  //         const movieData = await fetchMovieById(id); // Fetch the movie from API
-  //         setMovie(movieData);
-  //       } catch (error) {
-  //         console.error("Error fetching movie:", error);
-  //       }
-  //     }
-  //   };
-  //   fetchMovie();
-  // }, [id]);
-
-  // const onBackToList = () => {
-  //   navigate(-1);
-  //   setMovie(null);
-  // };
-
-  // // Handle the case where the movie is not yet loaded
-  // if (!movie) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // return (
-  //   <MovieDetailContainer>
-  //     <MovieItemWrapper>
-  //       <Poster
-  //         src={
-  //           movie.poster_path
-  //             ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-  //             : MissingPoster
-  //         }
-  //         alt={`Poster ${movie.title}`}
-  //       />
-  //       <MovieData>
-  //         <MovieTitle>{movie.title}</MovieTitle>
-  //         <p>Release date: {movie.release_date}</p>
-  //         <p>{movie.overview}</p>
-  //         <Rating>
-  //           <h4>Rating:</h4>
-  //           <h2>{movie.vote_average}</h2> based on <h4>{movie.vote_count}</h4>{" "}
-  //           reviews
-  //         </Rating>
-  //       </MovieData>
-  //     </MovieItemWrapper>
-  //     <BackToListButton onClick={onBackToList}>Back to list</BackToListButton>
-  //   </MovieDetailContainer>
-  // );
 };
+// Fetch movie data based on ID
+// const { id } = useParams<{ id: string }>();
+// useEffect(() => {
+//   const fetchMovie = async () => {
+//     if (id) {
+//       try {
+//         const movieData = await fetchMovieById(id); // Fetch the movie from API
+//         setMovie(movieData);
+//       } catch (error) {
+//         console.error("Error fetching movie:", error);
+//       }
+//     }
+//   };
+//   fetchMovie();
+// }, [id]);
+
+// const onBackToList = () => {
+//   navigate(-1);
+//   setMovie(null);
+// };
+
+// // Handle the case where the movie is not yet loaded
+// if (!movie) {
+//   return <div>Loading...</div>;
+// }
+
+// return (
+//   <MovieDetailContainer>
+//     <MovieItemWrapper>
+//       <Poster
+//         src={
+//           movie.poster_path
+//             ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+//             : MissingPoster
+//         }
+//         alt={`Poster ${movie.title}`}
+//       />
+//       <MovieData>
+//         <MovieTitle>{movie.title}</MovieTitle>
+//         <p>Release date: {movie.release_date}</p>
+//         <p>{movie.overview}</p>
+//         <Rating>
+//           <h4>Rating:</h4>
+//           <h2>{movie.vote_average}</h2> based on <h4>{movie.vote_count}</h4>{" "}
+//           reviews
+//         </Rating>
+//       </MovieData>
+//     </MovieItemWrapper>
+//     <BackToListButton onClick={onBackToList}>Back to list</BackToListButton>
+//   </MovieDetailContainer>
+// );
