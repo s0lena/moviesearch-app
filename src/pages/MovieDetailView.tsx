@@ -72,8 +72,8 @@ export const MovieDetailView: React.FC = () => {
     return (
       <MovieDetailContainer>
         <h2>Movie details not available</h2>
-        <BackToListButton onClick={() => navigate(-1)}>
-          Back to list
+        <BackToListButton onClick={() => navigate("/")}>
+          Back to search
         </BackToListButton>
       </MovieDetailContainer>
     );
