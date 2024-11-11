@@ -1,15 +1,18 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMemo } from "react";
 import styled from "styled-components";
 import MissingPoster from "../assets/MissingPoster.jpg";
 import { useGenres } from "../hooks/useGenres";
 import { Genre } from "../services/tmdb_api";
+import { useMovie } from "../hooks/useMovie";
 
+// Styled components as before
 const MovieDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   place-items: center;
 `;
+
 const MovieItemWrapper = styled.div`
   margin: 20px;
   padding: 20px;
@@ -62,13 +65,22 @@ const BackToListButton = styled.button`
 `;
 
 export const MovieDetailView: React.FC = () => {
-  const location = useLocation();
-  const movie = location.state?.movie;
+  const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const genres: Genre[] = useGenres();
 
-  // Check if movie is undefined and handle it gracefully
-  if (!movie) {
+  const movie = id ? useMovie(id) : undefined;
+
+  const genreNames = useMemo(
+    () =>
+      movie?.genre_ids?.map((id: number) => {
+        const genre = genres.find((g: Genre) => g.id === id);
+        return genre ? genre.name : "Unknown";
+      }) || [],
+    [movie?.genre_ids, genres]
+  );
+
+  if (!id || !movie) {
     return (
       <MovieDetailContainer>
         <h2>Movie details not available</h2>
@@ -78,16 +90,6 @@ export const MovieDetailView: React.FC = () => {
       </MovieDetailContainer>
     );
   }
-
-  // Safely map genres only if movie.genre_ids is defined
-  const genreNames = useMemo(
-    () =>
-      movie.genre_ids?.map((id: number) => {
-        const genre = genres.find((g: Genre) => g.id === id);
-        return genre ? genre.name : "Unknown";
-      }) || [], // Ensure that if movie.genre_ids is undefined, it returns an empty array
-    [movie.genre_ids, genres]
-  );
 
   const onBackToList = () => {
     navigate(-1);
@@ -120,6 +122,7 @@ export const MovieDetailView: React.FC = () => {
     </MovieDetailContainer>
   );
 };
+
 // Fetch movie data based on ID
 // const { id } = useParams<{ id: string }>();
 // useEffect(() => {

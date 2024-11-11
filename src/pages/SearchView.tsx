@@ -38,6 +38,7 @@ export const SearchView: React.FC = () => {
 
   const { movies, hasMore, noResults } = useMovies({ query, page });
 
+  console.log(movies);
   // Restore saved query, page, and scroll position on component mount
   useLayoutEffect(() => {
     const savedQuery = sessionStorage.getItem("query");
