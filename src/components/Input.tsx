@@ -27,6 +27,8 @@ const StyledInput = styled.input`
   &:not(:focus) {
     box-shadow: 0 0 2px 2px #ff6a00;
   }
+  &:focus {
+    outline: none;
 `;
 
 export const Input: React.FC<InputProps> = ({ value, onChange }) => {
